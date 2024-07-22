@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор Психологического Портрета Алиции Хшановской</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="number"], select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .results div {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Калькулятор Психологического Портрета Алиции Хшановской</h1>
+        <div class="input-group">
+            <label for="day">День:</label>
+            <select id="day">
+                <!-- Создание опций для выбора дня -->
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="month">Месяц:</label>
+            <select id="month">
+                <option value="1">Январь</option>
+                <option value="2">Февраль</option>
+                <option value="3">Март</option>
+                <option value="4">Апрель</option>
+                <option value="5">Май</option>
+                <option value="6">Июнь</option>
+                <option value="7">Июль</option>
+                <option value="8">Август</option>
+                <option value="9">Сентябрь</option>
+                <option value="10">Октябрь</option>
+                <option value="11">Ноябрь</option>
+                <option value="12">Декабрь</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="year">Год:</label>
+            <input type="number" id="year" min="1900" max="2100">
+        </div>
+        <button onclick="calculate()">Рассчитать</button>
+
+        <div class="results">
+            <h2>Результаты:</h2>
+            <div id="results"></div>
+        </div>
+    </div>
+
+    <script>
+        function toRoman(num) {
+            const lookup = { 
+                M: 1000, CM: 900, D: 500, CD: 400,
+                C: 100, XC: 90, L: 50, XL: 40,
+                X: 10, IX: 9, V: 5, IV: 4, I: 1 
+            };
+            let roman = '';
+            for (let i in lookup) {
+                const q = Math.floor(num / lookup[i]);
+                num -= q * lookup[i];
+                roman += i.repeat(q);
+            }
+            return roman;
+        }
+
+        function reduceNumber(num) {
+            while (num > 22) {
+                num -= 22;
+            }
+            return num === 0 ? 22 : num;
+        }
+
+        function calculate() {
+            // Получение данных из формы
+            const day = parseInt(document.getElementById('day').value);
+            const month = parseInt(document.getElementById('month').value);
+            const year = parseInt(document.getElementById('year').value);
+
+            if (isNaN(day) || isNaN(month) || isNaN(year)) {
+                alert('Пожалуйста, введите корректные данные.');
+                return;
+            }
+
+            // Расчеты
+            const sumYearDigits = Array.from(String(year), Number).reduce((a, b) => a + b, 0);
+
+            // Функция для обеспечения положительного результата
+            function positive(num) {
+                return Math.abs(num);
+            }
+
+            const position1 = reduceNumber(day);
+            const position2 = reduceNumber(month);
+            const position3 = reduceNumber(sumYearDigits);
+            const position4 = reduceNumber(position1 + position2);
+            const position5 = reduceNumber(position2 + position3);
+            const position6 = reduceNumber(position4 + position5);
+            const position7 = reduceNumber(position1 + position5);
+            const position8 = reduceNumber(position2 + position6);
+            const position9 = reduceNumber(Math.abs(position2 - position1));
+            const position10 = reduceNumber(Math.abs(position3 - position2));
+            const position11 = reduceNumber(Math.abs(position10 - position9));
+            const position12 = reduceNumber(position4 + position5 + position6);
+            const position13 = reduceNumber(position1 + position4 + position6);
+            const position14 = reduceNumber(position3 + position5 + position6);
+            const position15 = positive(reduceNumber(position9 + position10 + position11 - position7)); // Обеспечиваем положительное значение
+            const position16 = reduceNumber(position1 + position3 + position4 + position5);
+            const position17 = reduceNumber(position11 + position6);
+            const position18 = reduceNumber(position11 + position8);
+            const position19 = reduceNumber(position4 + position6);
+            const position20 = reduceNumber(position5 + position6);
+            const positionA = reduceNumber(position1 + position4);
+            const positionB = reduceNumber(position2 + position4);
+            const positionC = reduceNumber(position2 + position5);
+            const positionD = reduceNumber(position3 + position5);
+            const positionE = reduceNumber(position4 + position6);
+            const positionF = reduceNumber(position5 + position6);
+            const positionG1 = reduceNumber(positionC + positionD);
+            const positionG2 = reduceNumber(positionB + positionF);
+            const positionH = reduceNumber(positionA + positionE);
+            const positionKp = reduceNumber(position10 + position6);
+            const positionJ = reduceNumber(position2 + position8);
+
+            // Вывод результатов
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <p>Позиция 1 (Характеристика личности в детстве и подростковом возрасте): ${toRoman(position1)}</p>
+                <p>Позиция 2 (Характеристика личности в зрелом возрасте): ${toRoman(position2)}</p>
+                <p>Позиция 3 (Характеристика личности в пожилом возрасте): ${toRoman(position3)}</p>
+                <p>Позиция 4 (Подсознание: комплексы и страхи): ${toRoman(position4)}</p>
+                <p>Позиция 5 (Сознание: стремления, цели): ${toRoman(position5)}</p>
+                <p>Позиция 6 (Сверхсознание: скрытые таланты): ${toRoman(position6)}</p>
+                <p>Позиция 7 (Миссия: задача в жизни): ${toRoman(position7)}</p>
+                <p>Позиция 8 (Дары: потенциал для выполнения миссии): ${toRoman(position8)}</p>
+                <p>Позиция 9 (Кем был в прошлой жизни): ${toRoman(position9)}</p>
+                <p>Позиция 10 (Уроки жизни: то, что нужно усвоить): ${toRoman(position10)}</p>
+                <p>Позиция 11 (Кармическое предназначение): ${toRoman(position11)}</p>
+                <p>Позиция 12 (Опыт прошлых жизней): ${toRoman(position12)}</p>
+                <p>Позиция 13 (Место в обществе): ${toRoman(position13)}</p>
+                <p>Позиция 14 (Таланты и дары, открывающие перспективы): ${toRoman(position14)}</p>
+                <p>Позиция 15 (Сложности, требующие проработки): ${toRoman(position15)}</p>
+                <p>Позиция 16 (Проблемы и преграды, требующие внимания): ${toRoman(position16)}</p>
+                <p>Позиция 17 (Индивидуальные особенности): ${toRoman(position17)}</p>
+                <p>Позиция 18 (Роль и влияние в группе): ${toRoman(position18)}</p>
+                <p>Позиция 19 (Способности и наклонности): ${toRoman(position19)}</p>
+                <p>Позиция 20 (Отношения с окружающими): ${toRoman(position20)}</p>
+                <p>Позиция A (Позиция в группе): ${toRoman(positionA)}</p>
+                <p>Позиция B (Особые черты характера): ${toRoman(positionB)}</p>
+                <p>Позиция C (Смысл жизни): ${toRoman(positionC)}</p>
+                <p>Позиция D (Чему нужно учиться в жизни): ${toRoman(positionD)}</p>
+                <p>Позиция E (Кармическое предназначение): ${toRoman(positionE)}</p>
+                <p>Позиция F (Опыт прошлых жизней): ${toRoman(positionF)}</p>
+                <p>Позиция G1 (Сложности, требующие проработки): ${toRoman(positionG1)}</p>
+                <p>Позиция G2 (Таланты и дары, открывающие перспективы): ${toRoman(positionG2)}</p>
+                <p>Позиция H (Проблемы и преграды, требующие внимания): ${toRoman(positionH)}</p>
+                <p>Позиция Кп (Ключевая позиция): ${toRoman(positionKp)}</p>
+                <p>Позиция J (Индивидуальные особенности): ${toRoman(positionJ)}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
